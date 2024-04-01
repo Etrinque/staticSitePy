@@ -1,5 +1,6 @@
 import os
 import shutil
+import logging
 
 from copystatic import copy_files_to_static
 from gencontent import gen_page
@@ -24,6 +25,5 @@ def main():
         dir_template,
         os.path.join(dir_public, "index.hmtl"),
     )
-
 
 main()

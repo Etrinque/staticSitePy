@@ -1,5 +1,10 @@
 from htmlnode import LeafNode
-
+text_type_text = "text"
+text_type_bold = "bold"
+text_type_italic = "italic"
+text_type_code = "code"
+text_type_link = "link"
+text_type_image = "image"
 
 class TextNode:
     def __init__(self, text, text_type, url=None):
@@ -19,32 +24,16 @@ class TextNode:
 
 
 def textnode_to_htmlnode(text_node):
-    match text_node.text_type:
-        case "text":
-            text_type_code = "text"
-            leaf_node = LeafNode(None, text_type_code)
-            return text_type_code, leaf_node
-        case "bold":
-            text_type_code = "bold"
-            tag = "<b>"
-            return LeafNode(tag, text_type_code)
-        case "italic":
-            text_type_code = "italic"
-            tag = "<i>"
-            return LeafNode(tag, text_type_code)
-        case "code":
-            text_type_code = "code"
-            tag = "<code>"
-            return LeafNode(tag, text_type_code)
-        case "link":
-            text_type_code = "link"
-            tag = "<a>"
-            prop = "<href>"
-            return LeafNode(tag, text_type_code, prop)
-        case "image":
-            text_type_code = "image"
-            tag = "<img>"
-            props = {"src": text_node.url, "alst": text_type_code}
-            return LeafNode(tag, "", props)
-        case "":
-            raise ValueError("no text_type provided")
+    if text_node.text_type == text_type_text:
+        return LeafNode(None, text_node.text)
+    if text_node.text_type == text_type_bold:
+        return LeafNode("b", text_node.text)
+    if text_node.text_type == text_type_italic:
+        return LeafNode("i", text_node.text)
+    if text_node.text_type == text_type_code:
+        return LeafNode("code", text_node.text)
+    if text_node.text_type == text_type_link:
+        return LeafNode("a", text_node.text, {"href": text_node.url})
+    if text_node.text_type == text_type_image:
+        return LeafNode("img", "", {"src": text_node.url, "alt": text_node.text})
+    raise ValueError(f"Invalid text type: {text_node.text_type}")
